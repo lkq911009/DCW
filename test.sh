@@ -21,6 +21,7 @@ done
 
 echo $TARGET
 cd $DIR/DCW
+git checkout develop
 git pull
 cd ../
 batch_convert DCW
