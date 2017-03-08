@@ -42,7 +42,17 @@ for db in `cat $DIR/tmp/$TARGET/Dblist` ; do
 	fi
 	done
 done
-cd ../
+
+for db in `cat $DIR/tmp/$TARGET/Dblist` ; do
+    cd $DIR/tmp/$TARGET/$db
+    echo "remove folder $db"
+    for file in `find * -type f ! -name '*.ctl'` ;do
+        if ! grep $file $DIR/tmp/$TARGET/$db/${db}.ctl ;then
+            rm -rf $DIR/tmp/$TARGET/$db/$file
+        fi
+    done
+done
+cd ../../
 tar -cf $TARGET.tar $TARGET
 
 
