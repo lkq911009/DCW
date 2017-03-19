@@ -1,0 +1,51 @@
+	
+
+Force:
+When deal with hashCode() and equals(), we need to comply rules:
+a. If override equals (), then override hashCode ().
+b. As Set stores non-repeatable objects by means of hashCode and equals, it is necessary to override these two methods
+c. If self-defined object sets as key of Map, must override both hashCode and equals. Otherwise, we may not add duplicate objects into Map.
+
+Force:
+When transform Collections into Arrays, Must use to Array (T[] array), provided by Collection. The arguments type should be the same as Array, and the size is list.size().
+Explanation:
+When we use toArray with input arguments, this method will internally reallocate memory size and return the new address of Array. If the size of Array is greater than what we need, the unused part will be set as null, which causes memory waste. It is thus necessary to keep Array’s size same as Collections.
+
+Force:
+When using Utility Class Arrays.asList() to transform Array into Collections, forbid to use any method that will modify structure of Collections, such as add/remove/clear. Otherwise, it is very likely to throw UnsupportedOperationException.
+Explaination:
+The object returned by asList is simply an internal class of Arrays, it does not explicitly implement any Collection manipulate methods. The back-end data are still Array. For example:
+String[] str = new String[] {“a”, “b”};
+List list = Arrays.asList(str);
+First Scenario: list.add(“c”); // RunTimeException
+
+Second Scenario: str[0]=”Steve”; // list.get(0) will change as well.
+
+Force:
+When Generic < ? extends T> is used to accept return data, we cannot use add () method to load data, and < ? super  T> cannot use get(), because it will rise errors when initializing interfaces.
+Explanation:
+Based on PECS(Prodecer Extends Consumer Super) principal: 
+It is better to use UpperBound Extends, when frequently extract data from outside, and to use LowwerBound Super when insert frequently.
+
+Force:
+Do not execute remove/add operations in foreach loop, please use iterator instead. If Concurrency is considered, should add lock to Iterator object.
+Negative Example:
+List<String> a = new ArrayList<String>;
+a.add(“1”);
+a.add(“2”);
+for (String temp : a) {
+	if (“1”.equals(temp)){
+		a.remove(temp);
+	}
+}  
+The output of code is a little unexpected, we would remove “1” in the list. If we change “1” to “2” in the if-condition, it will throw ConcurrentModification exception.  
+
+Positive Example:
+Iterator<String> it = a.iterator();
+while (it.hasNext()){
+	String temp = it.next();
+	If (remove condition)
+		It.remove();
+}
+
+
