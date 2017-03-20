@@ -48,4 +48,26 @@ while (it.hasNext()){
 		It.remove();
 }
 
+Force:
+In JDK7 or above, Comparator should comply Transitive, Reflexive and Symmetry; Otherwise, Array.sort and Collections.sort will throw IllegalArgumentException.
+Explanation:
+1. Reflective: The implementor must ensure that sgn(compare(x, y)) == -sgn(compare(y, x)) for all x and y. 
+2. Transitive: ((compare (x, y)>0) && (compare (y, z)>0)) implies compare (x, z)>0.
+3. Symmetry: Ensure that: x=y, then compare (x,z) = compare (y,z).
 
+Recommend:
+Using entrySet is preferable over keySet is when iterating through all of the key/value pairs in a Map.
+Explanation:
+Keyset will iterate twice over Map; the first one will transform Map into Iterator, followed by extracting values from hashMap with corresponding keys. On the other hand, entrySet will only iterate Map once, which is thus more efficient. Besides, we suggest using Map.foreach method in JDK 8.
+
+Recommend: 
+Collection	Key	Value	Super	Thread Safety
+HashTable	Not Null	Not Null	Dictionary	Safe
+ConCurrentHashMap	Not Null	Not Null	AbstractMap	Partially Safe
+TreeMap	Not Null	Can be null	AbstractMap	Not Safe
+HashMap	Can be null	Can be null	AbstractMap	Not Safe
+
+
+
+
+ 
